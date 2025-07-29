@@ -4,25 +4,30 @@ on:
   push:
     branches: [ main ]
 
+permissions:      
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      # 安装 Emscripten SDK，并自动加入 PATH
+
       - name: Setup Emscripten
-        uses: mymindstorm/setup-emsdk@v13   
+        uses: mymindstorm/setup-emsdk@v13
         with:
-          version: 3.1.65            
+          version: latest            
 
       - name: Compile to WebAssembly
         run: |
-          mkdir -p docs
+          mkdir -p "$GITHUB_WORKSPACE/docs"
           emcc main.cpp \
             --preload-file answer.all@/ \
             -O3 -s WASM=1 \
-            -o docs/index.html
+            -o "$GITHUB_WORKSPACE/docs/index.html"
+
+          ls -R "$GITHUB_WORKSPACE/docs"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
