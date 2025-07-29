@@ -10,10 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Emscripten SDK
-        uses: emscripten-core/setup-emscripten@v3
+      # 安装 Emscripten SDK，并自动加入 PATH
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v13   
         with:
-          version: latest          
+          version: 3.1.65            
 
       - name: Compile to WebAssembly
         run: |
