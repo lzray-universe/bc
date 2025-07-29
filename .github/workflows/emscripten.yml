@@ -10,10 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # 一行搞定 emcc
       - name: Setup Emscripten SDK
         uses: emscripten-core/setup-emscripten@v3
         with:
-          version: latest
+          version: latest            # 也可以写 3.1.65 等固定版本
 
       - name: Compile to WebAssembly
         run: |
