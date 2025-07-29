@@ -10,16 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Emscripten
-        run: |
-          git clone https://github.com/emscripten-core/emsdk.git
-          cd emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
-          source ./emsdk_env.sh
+      - name: Setup Emscripten SDK
+        uses: emscripten-core/setup-emscripten@v3
+        with:
+          version: latest
 
       - name: Compile to WebAssembly
         run: |
+          mkdir -p docs
           emcc main.cpp \
             --preload-file answer.all@/ \
             -O3 -s WASM=1 \
